@@ -35,7 +35,7 @@ static int diskfile_opt_proc(void *data, const char *arg, int key,
 	return 1;
 }
 
-int main(int argc, char* argv[], char* envp[], char** exec_path) {
+int main(int argc, char* argv[]) {
   umask(0);
 	struct fuse_args args = FUSE_ARGS_INIT(argc, argv);
 	fuse_opt_parse(&args, NULL, NULL, &diskfile_opt_proc);

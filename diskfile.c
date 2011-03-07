@@ -4,11 +4,12 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <libgen.h>
 
 off_t diskfile_device_size(const char *path, int fd);
 
 char *device_path = NULL;
-static const char *file_path = "/device";
+static char *file_path = "/device";
 
 static off_t device_size;
 static int device_fd;
@@ -65,8 +66,9 @@ diskfile_read(const char *path, char *buf, size_t size, off_t offset,
 
 static void *
 diskfile_init(struct fuse_conn_info *conn) {
+	asprintf(&file_path, "/%s", basename(device_path));
 	device_fd = open(device_path, O_RDONLY);
-	device_size = diskfile_device_size(device_path, device_fd);	
+	device_size = diskfile_device_size(device_path, device_fd);
 	return NULL;
 }
 
