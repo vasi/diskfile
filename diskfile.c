@@ -1,10 +1,11 @@
+#define _GNU_SOURCE // asprintf
 #include <fuse.h>
 #include <string.h>
 #include <errno.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include <stdio.h>
 #include <libgen.h>
+#include <stdio.h>
 
 off_t diskfile_device_size(const char *path, int fd);
 
