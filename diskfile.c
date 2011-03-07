@@ -1,19 +1,31 @@
-#define _GNU_SOURCE // asprintf
+#include "diskfile.h"
+
 #include <fuse.h>
 #include <string.h>
 #include <errno.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include <libgen.h>
 #include <stdio.h>
 
-off_t diskfile_device_size(const char *path, int fd);
+#define FOREACH_ENTRY(_var) \
+	for (diskfile_entry *_var = diskfile_entries; \
+		_var < diskfile_entries + diskfile_entries_count; \
+		++_var)
 
-char *device_path = NULL;
-static char *file_path = "/device";
+diskfile_entry diskfile_entries[DISKFILE_MAX_ENTRIES];
+size_t diskfile_entries_count = 0;
 
-static off_t device_size;
-static int device_fd;
+static off_t
+diskfile_source_size(const char *path) {	
+	// Regular files are easy
+	struct stat st;
+	int err = lstat(path, &st);
+	if (err == 0 && S_ISREG(st.st_mode)) {
+		return st.st_size;
+	}
+	
+	return diskfile_device_size(path);
+}
 
 static int
 diskfile_getattr(const char *path, struct stat *stbuf) {
@@ -21,13 +33,19 @@ diskfile_getattr(const char *path, struct stat *stbuf) {
   
   if (strcmp(path, "/") == 0) { /* The root directory of our file system. */
     stbuf->st_mode = S_IFDIR | 0555;
-    stbuf->st_nlink = 3;
+    stbuf->st_nlink = 2 + diskfile_entries_count;
     return 0;
-  } else if (strcmp(path, file_path) == 0) {
-		stbuf->st_mode = S_IFREG | 0444;
-		stbuf->st_nlink = 1;
-		stbuf->st_size = device_size;
-		return 0;
+  }
+	FOREACH_ENTRY(entry) {
+		if (strcmp(path, entry->dest) == 0) {
+			stbuf->st_mode = S_IFREG | 0444;
+			stbuf->st_nlink = 1;
+			
+			if (entry->size == -1)
+				entry->size = diskfile_source_size(entry->source);
+			stbuf->st_size = entry->size;
+			return 0;
+		}
 	}
   return -ENOENT;
 }
@@ -40,55 +58,43 @@ diskfile_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
   
   filler(buf, ".", NULL, 0);           /* Current directory (.)  */
   filler(buf, "..", NULL, 0);          /* Parent directory (..)  */
-	filler(buf, file_path + 1, NULL, 0);
-  
-  return 0;
+	FOREACH_ENTRY(entry) {
+		filler(buf, entry->dest + 1, NULL, 0);
+	}
+	
+	return 0;
 }
 
 static int
 diskfile_open(const char *path, struct fuse_file_info *fi) {
-	if (strcmp(path, file_path) == 0) {
-		if ((fi->flags & O_ACCMODE) != O_RDONLY)
-			return -EACCES;
-		return 0;
+	FOREACH_ENTRY(entry) {
+		if (strcmp(path, entry->dest) == 0) {
+			if ((fi->flags & O_ACCMODE) != O_RDONLY)
+				return -EACCES;
+			
+			fi->fh = open(entry->source, O_RDONLY);
+			return 0;
+		}
 	}
 	return -ENOENT;
+}
+
+static int
+diskfile_release(const char *path, struct fuse_file_info *fi) {
+	close(fi->fh);
+	return 0;
 }
 
 static int
 diskfile_read(const char *path, char *buf, size_t size, off_t offset,
               struct fuse_file_info *fi) {
-	if (strcmp(path, file_path) == 0) {
-		ssize_t ret = pread(device_fd, buf, size, offset);
-		return ret;
-	}
-	return -ENOENT;
-}
-
-static off_t
-diskfile_source_size(const char *path, int fd) {	
-	// Regular files are easy
-	struct stat st;
-	int err = fstat(fd, &st);
-	if (err == 0 && S_ISREG(st.st_mode)) {
-		return st.st_size;
-	}
-	
-	return diskfile_device_size(path, fd);
-}
-	
-static void *
-diskfile_init(struct fuse_conn_info *conn) {
-	asprintf(&file_path, "/%s", basename(device_path));
-	device_fd = open(device_path, O_RDONLY);
-	device_size = diskfile_source_size(device_path, device_fd);
-	return NULL;
+	return pread(fi->fh, buf, size, offset);
 }
 
 struct fuse_operations diskfile_operations = {
   .getattr     = diskfile_getattr,
   .readdir     = diskfile_readdir,
   .open        = diskfile_open,
+	.release     = diskfile_release,
   .read        = diskfile_read,
-	.init				 = diskfile_init,
 };

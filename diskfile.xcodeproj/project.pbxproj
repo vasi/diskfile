@@ -28,6 +28,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		590E4FEE13245F4300DE04EB /* diskfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = diskfile.h; sourceTree = "<group>"; };
 		5929ECBE1323C1DE00E9E458 /* mac-size.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "mac-size.m"; sourceTree = "<group>"; };
 		5929ECD41323C55E00E9E458 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8DD76FB20486AB0100D96B5E /* diskfile */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = diskfile; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -62,6 +63,7 @@
 		08FB7795FE84155DC02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				590E4FEE13245F4300DE04EB /* diskfile.h */,
 				FFD708640EE669A60026C014 /* diskfile.c */,
 				FFD708750EE66DA70026C014 /* main.c */,
 				5929ECBE1323C1DE00E9E458 /* mac-size.m */,

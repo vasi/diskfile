@@ -1,4 +1,4 @@
-CFLAGS = -Wall -D_FILE_OFFSET_BITS=64 -DFUSE_USE_VERSION=26
+CFLAGS = -std=gnu99 -Wall -D_FILE_OFFSET_BITS=64 -DFUSE_USE_VERSION=26
 SOURCES = diskfile.c main.c
 
 UNAME = $(shell uname)

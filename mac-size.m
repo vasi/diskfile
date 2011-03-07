@@ -1,8 +1,10 @@
+#include "diskfile.h"
+
 #include <sys/stat.h>
 #include <Foundation/Foundation.h>
 
 // Use diskutil to find device size
-off_t diskfile_device_size(const char *path, int fd) {
+off_t diskfile_device_size(const char *path) {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
 	NSTask *task = [[NSTask alloc] init];
