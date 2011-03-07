@@ -64,11 +64,23 @@ diskfile_read(const char *path, char *buf, size_t size, off_t offset,
 	return -ENOENT;
 }
 
+static off_t
+diskfile_source_size(const char *path, int fd) {	
+	// Regular files are easy
+	struct stat st;
+	int err = fstat(fd, &st);
+	if (err == 0 && S_ISREG(st.st_mode)) {
+		return st.st_size;
+	}
+	
+	return diskfile_device_size(path, fd);
+}
+	
 static void *
 diskfile_init(struct fuse_conn_info *conn) {
 	asprintf(&file_path, "/%s", basename(device_path));
 	device_fd = open(device_path, O_RDONLY);
-	device_size = diskfile_device_size(device_path, device_fd);
+	device_size = diskfile_source_size(device_path, device_fd);
 	return NULL;
 }
 

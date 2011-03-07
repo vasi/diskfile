@@ -1,15 +1,8 @@
 #include <sys/stat.h>
 #include <Foundation/Foundation.h>
 
-off_t diskfile_device_size(const char *path, int fd) {	
-	// Regular files are easy
-	struct stat st;
-	int err = fstat(fd, &st);
-	if (err == 0 && S_ISREG(st.st_mode)) {
-		return st.st_size;
-	}
-	
-	// See what diskutil has to say
+// Use diskutil to find device size
+off_t diskfile_device_size(const char *path, int fd) {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
 	NSTask *task = [[NSTask alloc] init];
@@ -32,5 +25,4 @@ off_t diskfile_device_size(const char *path, int fd) {
 	
 	[pool release];
 	return size;
-
 }
