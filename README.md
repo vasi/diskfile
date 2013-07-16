@@ -19,5 +19,6 @@ Caveats
 * Only disk block-devices are tested, I've no idea what will happen with other such devices
 * Only Mac OS X and Linux supported
 * Only read access is allowed
+* There's no support for fancy parameters like offset and file mode. For those, check out [fusefile](https://github.com/vi/fusefile).
 
 All the above should be fixable, patches welcome!
