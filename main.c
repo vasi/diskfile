@@ -3,6 +3,7 @@
 #include <fuse.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <libgen.h>
 
 static void usage(struct fuse_args *args) {
@@ -19,13 +20,20 @@ static int diskfile_opt_proc(void *data, const char *arg, int key,
 			fprintf(stderr, "Too many entries\n");
 			exit(-1);
 		}
-			
+
 		diskfile_entry *entry = diskfile_entries + diskfile_entries_count++;
 		entry->source = realpath(arg, NULL);
-		// Check if a dest name is duplicated?
-		asprintf(&entry->dest, "/%s", basename(entry->source));
-		entry->size = -1;
-		return 0;
+
+    // Generate the destination name.
+    // Check if a dest name is duplicated?
+    size_t size = strlen(arg) + 1;
+    char *argmut = malloc(size);
+    strncpy(argmut, arg, size);
+		asprintf(&entry->dest, "/%s", basename(argmut));
+		free(argmut);
+
+    entry->size = -1;
+    return 0;
 	}
 	return 1;
 }
@@ -34,13 +42,13 @@ int main(int argc, char* argv[]) {
   umask(0);
 	struct fuse_args args = FUSE_ARGS_INIT(argc, argv);
 	fuse_opt_parse(&args, NULL, NULL, &diskfile_opt_proc);
-	
-	// Need at least a 
+
+	// Need at least a
 	if (diskfile_entries_count < 2)
 		usage(&args);
-	
+
 	// put the mountpoint back
 	fuse_opt_add_arg(&args, diskfile_entries[--diskfile_entries_count].source);
-  
+
 	return fuse_main(args.argc, args.argv, &diskfile_operations, NULL);
 }
