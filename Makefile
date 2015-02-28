@@ -3,8 +3,8 @@ SOURCES = diskfile.c main.c
 
 UNAME = $(shell uname)
 ifeq ($(UNAME),Darwin)
-	CFLAGS += -D__DARWIN_64_BIT_INO_T=1 -D__FreeBSD__=10
-	LIBS += -lfuse_ino64 -framework Foundation
+	CFLAGS += -I/usr/local/include/osxfuse/fuse -D_FILE_OFFSET_BITS=64 -D_DARWIN_USE_64_BIT_INODE
+	LIBS += -losxfuse -framework Foundation
 	SOURCES += mac-size.m
 else ifeq ($(UNAME),FreeBSD)
 	CFLAGS += -I/usr/local/include
