@@ -1,2 +1,4 @@
-build
-diskfile
+/build
+*.xcworkspace
+xcuserdata
+/diskfile

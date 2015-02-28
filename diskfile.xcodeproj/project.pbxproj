@@ -3,13 +3,13 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 45;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5929ECBF1323C1DE00E9E458 /* mac-size.m in Sources */ = {isa = PBXBuildFile; fileRef = 5929ECBE1323C1DE00E9E458 /* mac-size.m */; };
-		5929ECD51323C55E00E9E458 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5929ECD41323C55E00E9E458 /* Foundation.framework */; };
-		8DD76FB00486AB0100D96B5E /* diskfile.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = C6A0FF2C0290799A04C91782 /* diskfile.1 */; };
+		59645F471AA235CA000BDA25 /* mac-size.c in Sources */ = {isa = PBXBuildFile; fileRef = 59645F461AA235CA000BDA25 /* mac-size.c */; };
+		59645F491AA2369F000BDA25 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59645F481AA2369F000BDA25 /* CoreFoundation.framework */; };
+		59645F4B1AA236A6000BDA25 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59645F4A1AA236A6000BDA25 /* IOKit.framework */; };
 		FFD708650EE669A60026C014 /* diskfile.c in Sources */ = {isa = PBXBuildFile; fileRef = FFD708640EE669A60026C014 /* diskfile.c */; };
 		FFD708760EE66DA70026C014 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = FFD708750EE66DA70026C014 /* main.c */; };
 /* End PBXBuildFile section */
@@ -21,7 +21,6 @@
 			dstPath = /usr/share/man/man1/;
 			dstSubfolderSpec = 0;
 			files = (
-				8DD76FB00486AB0100D96B5E /* diskfile.1 in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
@@ -29,10 +28,10 @@
 
 /* Begin PBXFileReference section */
 		590E4FEE13245F4300DE04EB /* diskfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = diskfile.h; sourceTree = "<group>"; };
-		5929ECBE1323C1DE00E9E458 /* mac-size.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "mac-size.m"; sourceTree = "<group>"; };
-		5929ECD41323C55E00E9E458 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		59645F461AA235CA000BDA25 /* mac-size.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "mac-size.c"; sourceTree = "<group>"; };
+		59645F481AA2369F000BDA25 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		59645F4A1AA236A6000BDA25 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		8DD76FB20486AB0100D96B5E /* diskfile */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = diskfile; sourceTree = BUILT_PRODUCTS_DIR; };
-		C6A0FF2C0290799A04C91782 /* diskfile.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = diskfile.1; sourceTree = "<group>"; };
 		FFD708640EE669A60026C014 /* diskfile.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = diskfile.c; sourceTree = "<group>"; };
 		FFD708750EE66DA70026C014 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -42,7 +41,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5929ECD51323C55E00E9E458 /* Foundation.framework in Frameworks */,
+				59645F4B1AA236A6000BDA25 /* IOKit.framework in Frameworks */,
+				59645F491AA2369F000BDA25 /* CoreFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -53,9 +53,8 @@
 			isa = PBXGroup;
 			children = (
 				08FB7795FE84155DC02AAC07 /* Source */,
-				C6A0FF2B0290797F04C91782 /* Documentation */,
+				59645F4E1AA236D6000BDA25 /* Libraries */,
 				1AB674ADFE9D54B511CA2CBB /* Products */,
-				5929ECD41323C55E00E9E458 /* Foundation.framework */,
 			);
 			name = diskfile;
 			sourceTree = "<group>";
@@ -63,10 +62,10 @@
 		08FB7795FE84155DC02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				59645F461AA235CA000BDA25 /* mac-size.c */,
 				590E4FEE13245F4300DE04EB /* diskfile.h */,
 				FFD708640EE669A60026C014 /* diskfile.c */,
 				FFD708750EE66DA70026C014 /* main.c */,
-				5929ECBE1323C1DE00E9E458 /* mac-size.m */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -79,12 +78,13 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C6A0FF2B0290797F04C91782 /* Documentation */ = {
+		59645F4E1AA236D6000BDA25 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				C6A0FF2C0290799A04C91782 /* diskfile.1 */,
+				59645F4A1AA236A6000BDA25 /* IOKit.framework */,
+				59645F481AA2369F000BDA25 /* CoreFoundation.framework */,
 			);
-			name = Documentation;
+			name = Libraries;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -113,8 +113,11 @@
 /* Begin PBXProject section */
 		08FB7793FE84155DC02AAC07 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+			};
 			buildConfigurationList = 1DEB928908733DD80010E9CD /* Build configuration list for PBXProject "diskfile" */;
-			compatibilityVersion = "Xcode 3.1";
+			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
@@ -139,7 +142,7 @@
 			files = (
 				FFD708650EE669A60026C014 /* diskfile.c in Sources */,
 				FFD708760EE66DA70026C014 /* main.c in Sources */,
-				5929ECBF1323C1DE00E9E458 /* mac-size.m in Sources */,
+				59645F471AA235CA000BDA25 /* mac-size.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -149,22 +152,15 @@
 		1DEB928608733DD80010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				HEADER_SEARCH_PATHS = /usr/local/include;
-				INSTALL_PATH = /usr/local/bin;
+				HEADER_SEARCH_PATHS = /usr/local/include/osxfuse/fuse;
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				OTHER_CFLAGS = (
 					"-D_FILE_OFFSET_BITS=64",
-					"-D__DARWIN_64_BIT_INO_T=1",
-					"-D__FreeBSD__=10",
+					"-D_DARWIN_USE_64_BIT_INODE",
 					"-DFUSE_USE_VERSION=26",
 				);
-				OTHER_LDFLAGS = "-lfuse_ino64";
+				OTHER_LDFLAGS = "-losxfuse";
 				PRODUCT_NAME = diskfile;
 			};
 			name = Debug;
@@ -172,19 +168,14 @@
 		1DEB928708733DD80010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_MODEL_TUNING = G5;
-				HEADER_SEARCH_PATHS = /usr/local/include;
-				INSTALL_PATH = /usr/local/bin;
+				HEADER_SEARCH_PATHS = /usr/local/include/osxfuse/fuse;
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				OTHER_CFLAGS = (
 					"-D_FILE_OFFSET_BITS=64",
-					"-D__DARWIN_64_BIT_INO_T=1",
-					"-D__FreeBSD__=10",
+					"-D_DARWIN_USE_64_BIT_INODE",
 					"-DFUSE_USE_VERSION=26",
 				);
-				OTHER_LDFLAGS = "-lfuse_ino64";
+				OTHER_LDFLAGS = "-losxfuse";
 				PRODUCT_NAME = diskfile;
 			};
 			name = Release;
@@ -192,26 +183,24 @@
 		1DEB928A08733DD80010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				SDKROOT = macosx10.5;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
 		1DEB928B08733DD80010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				SDKROOT = macosx10.5;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
