@@ -29,7 +29,11 @@ static int diskfile_opt_proc(void *data, const char *arg, int key,
     size_t size = strlen(arg) + 1;
     char *argmut = malloc(size);
     strncpy(argmut, arg, size);
-		asprintf(&entry->dest, "/%s", basename(argmut));
+		char *base = basename(argmut);
+
+		entry->dest = malloc(size + 1);
+		entry->dest[0] = '/';
+		strncpy(entry->dest + 1, base, size);
 		free(argmut);
 
     entry->size = -1;

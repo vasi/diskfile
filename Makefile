@@ -1,4 +1,5 @@
 CFLAGS += -std=gnu99 -Wall -D_FILE_OFFSET_BITS=64 -DFUSE_USE_VERSION=26
+OPT = -O2
 SOURCES = diskfile.c main.c
 
 UNAME = $(shell uname)
@@ -18,7 +19,7 @@ endif
 all: diskfile
 
 diskfile: $(SOURCES)
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
+	$(CC) $(OPT) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
 
 clean:
 	rm -f diskfile
