@@ -10,7 +10,10 @@
 off_t diskfile_device_size(const char *path) {	
     unsigned long long size;
     int fd = open(path, O_RDONLY);
-    ioctl(fd, BLKGETSIZE64, &size);
+		if (fd == -1)
+			return 0;
+    if (ioctl(fd, BLKGETSIZE64, &size) == -1)
+			size = 0;
     close(fd);
     return size;
 }
