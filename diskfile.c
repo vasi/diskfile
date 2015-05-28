@@ -14,6 +14,7 @@
 
 diskfile_entry diskfile_entries[DISKFILE_MAX_ENTRIES];
 size_t diskfile_entries_count = 0;
+time_t diskfile_time;
 
 static off_t
 diskfile_source_size(const char *path) {	
@@ -44,6 +45,9 @@ diskfile_getattr(const char *path, struct stat *stbuf) {
 			if (entry->size == -1)
 				entry->size = diskfile_source_size(entry->source);
 			stbuf->st_size = entry->size;
+			stbuf->st_ctime = diskfile_time;
+			stbuf->st_mtime = diskfile_time;
+			stbuf->st_atime = diskfile_time;
 			return 0;
 		}
 	}

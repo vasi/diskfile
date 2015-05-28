@@ -54,5 +54,7 @@ int main(int argc, char* argv[]) {
 	// put the mountpoint back
 	fuse_opt_add_arg(&args, diskfile_entries[--diskfile_entries_count].source);
 
+	diskfile_time = time(NULL);
+
 	return fuse_main(args.argc, args.argv, &diskfile_operations, NULL);
 }
