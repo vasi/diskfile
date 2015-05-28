@@ -10,6 +10,7 @@ typedef struct {
 } diskfile_entry;
 extern diskfile_entry diskfile_entries[];
 extern size_t diskfile_entries_count;
+extern time_t diskfile_time;
 
 extern struct fuse_operations diskfile_operations;
 off_t diskfile_device_size(const char *path);
